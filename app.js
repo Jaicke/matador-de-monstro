@@ -8,7 +8,7 @@ var app = new Vue({
     currentMonsterLife: 100,
     playerPower: 10,
     monsterPower: 13,
-    attackLogs: [],
+    actionsLogs: [],
     winner: '',
     hasWinner: false
   },
@@ -29,7 +29,7 @@ var app = new Vue({
         this.hasWinner = true
       }
     },
-    playing(current){
+    playing(){
       if (this.currentMonsterLife <= 0 && this.currentPlayerLife <= 0){
         this.winner = 'draw'
       }
@@ -40,38 +40,24 @@ var app = new Vue({
       return this.currentPlayerLife >= 100 ? true : false
     },
     healthStylePlayer(){
-      if(this.currentPlayerLife <= 20){
-        return {
-          width: this.playerLife,
-          backgroundColor: '#ff0000c4'
-        }
-      } else {
-        return {
-          width: this.playerLife,
-          backgroundColor: '#087508'
-        }
+      if(this.currentPlayerLife < 20){
+        return {width: this.playerLife, backgroundColor: '#ff0000c4'}
+      } else{
+        return {width: this.playerLife, backgroundColor: '#087508'}
       }
     },
     healthStyleMonster(){
-      if(this.currentMonsterLife <= 20){
-        return {
-          width: this.monsterLife,
-          backgroundColor: '#ff0000c4'
-        }
+      if(this.currentMonsterLife < 20){
+        return {width: this.monsterLife, backgroundColor: '#ff0000c4'}
       } else {
-        return {
-          width: this.monsterLife,
-          backgroundColor: '#087508'
-        }
+        return {width: this.monsterLife, backgroundColor: '#087508'}
       }
     }
   },
   methods: {
     attack(specialAttack){
       let currentPlayerPower = this.playerPower
-      if(specialAttack){
-        currentPlayerPower += 8
-      }
+      if(specialAttack){  currentPlayerPower += 8 }
       let monsterAttack = Math.floor(Math.random() * this.monsterPower) + 5
       let playerAttack = Math.floor(Math.random() * currentPlayerPower) + 5
       this.currentPlayerLife -= monsterAttack
@@ -79,7 +65,7 @@ var app = new Vue({
       this.playerLife  = `${this.currentPlayerLife}%`
       this.monsterLife = `${this.currentMonsterLife}%`
 
-      this.attackLogs.push({ monsterAttack: `MONSTRO ATACOU JOGADOR COM ${monsterAttack}`,
+      this.actionsLogs.push({ monsterAttack: `MONSTRO ATACOU JOGADOR COM ${monsterAttack}`,
                              playerAttack: `JOGADOR ATACOU MONSTRO COM ${playerAttack}`})
 
     },
@@ -95,7 +81,7 @@ var app = new Vue({
         this.currentPlayerLife = 100
         this.playerLife = '100%'
       }
-      this.attackLogs.push({ monsterAttack: `MONSTRO ATACOU JOGADOR COM ${monsterAttack}`,
+      this.actionsLogs.push({ monsterAttack: `MONSTRO ATACOU JOGADOR COM ${monsterAttack}`,
                              playerAttack: `JOGADOR CUROU COM ${playerHeal}`})
     },
     startGame(){
@@ -104,7 +90,7 @@ var app = new Vue({
       this.currentMonsterLife = 100
       this.playerLife = '100%'
       this.monsterLife = '100%'
-      this.attackLogs = []
+      this.actionsLogs = []
       this.hasWinner = false
     }
   }
