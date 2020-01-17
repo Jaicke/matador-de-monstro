@@ -1,0 +1,61 @@
+<script src="https://unpkg.com/vue"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<div id="app">
+
+  <div class="container">
+    <h2 class="center">Matador de Monstro</h2>
+    <div class="box box-players">
+      <div class="player">
+        <h3>Jogador</h3>
+        <div class="progress-bar">
+          <div class="progress" :style='healthStylePlayer'></div>
+        </div>
+        {{ playerLife }}
+      </div>
+      <div class="player">
+        <h3>Monstro</h3>
+        <div class="progress-bar">
+          <div class="progress" :style='healthStyleMonster'></div>
+        </div>
+        {{ monsterLife }}
+      </div>
+    </div>
+
+    <div class="box box-winner" v-show="hasWinner">
+      <div class="green" v-if="winner == 'player'">Você Ganhou!!</div>
+      <div class="red" v-else-if="winner == 'monster'">Você Perdeu!!</div>
+      <div v-else>Empate!!</div>
+    </div>
+
+    <div class="box box-actions">
+      <template v-if="!playing">
+        <button class="btn btn-primary" @click="startGame">INICIAR JOGO</button>
+      </template>
+
+      <template v-else>
+        <button class="btn btn-danger" @click="attack(false)">ATAQUE</button>
+        <button class="btn btn-warning" @click="attack(true)">ATAQUE ESPECIAL</button>
+        <button class="btn btn-success" @click="heal" :disabled="disable">CURAR</button>
+        <button class="btn btn-default" @click="playing = false">DESISTIR</button>
+      </template>
+      
+    </div>
+
+    <div class="box box-logs">
+      <template v-for="log in attackLogs">
+        <div class="alert alert-primary">{{ log.playerAttack }}</div>
+        <div class="alert alert-danger">{{ log.monsterAttack }}</div>
+      </template>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+<script src="app.js"></script>
